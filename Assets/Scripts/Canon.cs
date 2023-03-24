@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Canon : MonoBehaviour
+public class Canon : Enemy
 {
     public GameObject bulletPrefab;
 
@@ -10,7 +10,7 @@ public class Canon : MonoBehaviour
     private GameObject muzzle;
     private float turnSpeed = 8.0f;
     private float timeFired = 0;
-    private float cooldown = 1.0f;
+    private float cooldown = 1.5f;
     private float bulletSpeed = 35.0f;
 
     // Start is called before the first frame update
@@ -41,8 +41,17 @@ public class Canon : MonoBehaviour
         if (Time.time - timeFired > cooldown)
         {
             timeFired = Time.time;
+            BulletType enemyBullet = new BulletType(null, 17f, 12f, 5f);
+            Bullet newEnemyBullet = enemyBullet.NewBullet();
             var firedBullet = Instantiate(bulletPrefab, muzzle.transform.position, muzzle.transform.rotation);
-            firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzle.transform.up * bulletSpeed, ForceMode2D.Impulse);
+            firedBullet.GetComponent<BulletBehaviour>().SetBullet(newEnemyBullet);
+            firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzle.transform.up * newEnemyBullet.GetBulletSpeed(), ForceMode2D.Impulse);
         }
+    }
+    
+    public override void TakeDamage()
+    {
+        Debug.Log("Canon Destroyed!");
+        Destroy(gameObject);
     }
 }

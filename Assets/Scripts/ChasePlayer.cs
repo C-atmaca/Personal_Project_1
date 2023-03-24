@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChasePlayer : MonoBehaviour
+public class ChasePlayer : Enemy
 {
     private Rigidbody2D enemyRb;
     private GameObject player;
@@ -32,5 +32,11 @@ public class ChasePlayer : MonoBehaviour
 
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotateSpeed * Time.deltaTime);
+    }
+    
+    public override void TakeDamage()
+    {
+        Debug.Log("Chaser Destroyed!");
+        Destroy(gameObject);
     }
 }

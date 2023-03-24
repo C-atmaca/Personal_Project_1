@@ -4,48 +4,29 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
     
-    public GameObject canonEnemyPrefab;
-    public GameObject chaserEnemyPrefab;
-
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    
     private int canonCount = 0;
     private int chaserCount = 0;
-    private int waveNumber = 1;
-    private float canonBoundaryX = 12.0f;
-    private float canonMaxBoundaryY = 4.0f;
-    private float canonMinBoundaryY = -2.0f;
-    private float chaserBoundaryX = 13.0f;
-    private float chaserBoundaryY = 7.5f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    private void SpawnCanon()
-    {
-        for (int i = 0; i < waveNumber/2; i++)
-        {
-            float randomPosx = Random.Range(-canonBoundaryX, canonBoundaryX);
-            float randomPosy = Random.Range(canonMinBoundaryY, canonMaxBoundaryY);
-            Vector2 randomPosition = new Vector2(randomPosx, randomPosy);
-
-            Instantiate(canonEnemyPrefab, randomPosition, canonEnemyPrefab.transform.rotation);
-        }
-    }
-
-    private void SpawnChaser()
-    {
-        for (int i = 0; i < waveNumber/2; i++)
-        {
-            float randomPosx = Random.Range(-chaserBoundaryX, chaserBoundaryX);
-            float randomPosy = Random.Range(-chaserBoundaryY, chaserBoundaryY);
-            Vector2 randomPosition = new Vector2(randomPosx, randomPosy);
-
-            Instantiate(chaserEnemyPrefab, randomPosition, canonEnemyPrefab.transform.rotation);
-        }
-    }
+    
+    public int waveNumber = 1;
+    public float canonBoundaryX = 12.0f;
+    public float canonMaxBoundaryY = 4.0f;
+    public float canonMinBoundaryY = -2.0f;
+    public float chaserBoundaryX = 13.0f;
+    public float chaserBoundaryY = 7.5f;
 
     // Update is called once per frame
     void Update()
@@ -53,10 +34,10 @@ public class SpawnManager : MonoBehaviour
         canonCount = FindObjectsOfType<Canon>().Length;
         chaserCount = FindObjectsOfType<ChasePlayer>().Length;
 
-        if (canonCount + chaserCount == 0)
+        if (canonCount + chaserCount <= 0)
         {
-            SpawnCanon();
-            SpawnChaser();
+            canonCount = EnemyFactory.Instance.CreateEnemy(1);
+            chaserCount = EnemyFactory.Instance.CreateEnemy(2);
             waveNumber++;
         }
     }

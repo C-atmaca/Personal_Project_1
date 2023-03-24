@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -75,18 +73,24 @@ public class PlayerController : MonoBehaviour
     {
         if (!shieldActive)
         {
-            if (Input.GetKeyDown(KeyCode.Keypad5) && Time.time - timePressedLeft > cooldown)
+            if (Input.GetKeyDown(KeyCode.K) && Time.time - timePressedLeft > cooldown)
             {
                 timePressedLeft = Time.time;
+                BulletType playerBullet = new BulletType(null, 17f, 12f, 30f);
+                Bullet newPlayerBullet = playerBullet.NewBullet();
                 var firedBullet = Instantiate(bulletPrefab, muzzleLeft.transform.position, muzzleLeft.transform.rotation);
-                firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzleLeft.transform.up * bulletSpeed, ForceMode2D.Impulse);
+                firedBullet.GetComponent<BulletBehaviour>().SetBullet(newPlayerBullet);
+                firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzleLeft.transform.up * newPlayerBullet.GetBulletSpeed(), ForceMode2D.Impulse);
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad6) && Time.time - timePressedRight > cooldown)
+            if (Input.GetKeyDown(KeyCode.L) && Time.time - timePressedRight > cooldown)
             {
                 timePressedRight = Time.time;
+                BulletType playerBullet = new BulletType(null, 17f, 12f, 30f);
+                Bullet newPlayerBullet = playerBullet.NewBullet();
                 var firedBullet = Instantiate(bulletPrefab, muzzleRight.transform.position, muzzleRight.transform.rotation);
-                firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzleRight.transform.up * bulletSpeed, ForceMode2D.Impulse);
+                firedBullet.GetComponent<BulletBehaviour>().SetBullet(newPlayerBullet);
+                firedBullet.GetComponent<Rigidbody2D>().AddForce(muzzleRight.transform.up * newPlayerBullet.GetBulletSpeed(), ForceMode2D.Impulse);
             }
         }
     }
@@ -129,6 +133,11 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
+        
+        // if (collision.gameObject.CompareTag("Enemy"))
+        // {
+        //     gameObject.SetActive(false);
+        // }
     }
 }
 

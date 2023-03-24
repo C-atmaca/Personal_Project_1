@@ -1,49 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Bullet : MonoBehaviour
+public class Bullet
 {
-    private float boundX = 17.0f;
-    private float boundY = 12.0f;
-    private float bulletSpeed = 30.0f;
-    private Rigidbody2D bulletRb;
+    private float boundX;
+    private float boundY;
+    private float bulletSpeed;
+    private BulletType _bulletType;
 
-    // Start is called before the first frame update
-    void Start()
+    public Bullet(BulletType bulletType)
     {
-        bulletRb = GetComponent<Rigidbody2D>();
+        _bulletType = bulletType;
+        boundX = bulletType.GetBoundX();
+        boundY = bulletType.GetBoundY();
+        bulletSpeed = bulletType.GetBulletSpeed();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public float GetBoundX()
     {
-        if (transform.position.x > boundX || transform.position.x < -boundX || transform.position.y > boundY)
-        {
-            Destroy(gameObject);
-        }
+        return boundX;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    public float GetBoundY()
     {
-        if (gameObject.CompareTag("Player Bullet") && collision.CompareTag("Enemy"))
-        {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-        }
-
-        if (gameObject.CompareTag("Enemy Bullet") && collision.CompareTag("Player"))
-        {
-            collision.gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
-
-        if (gameObject.CompareTag("Enemy Bullet") && collision.CompareTag("Shield"))
-        {
-            Vector2 direction = (transform.position - collision.gameObject.transform.position).normalized;
-            bulletRb.velocity = Vector3.zero;
-            bulletRb.angularVelocity = 0;
-            bulletRb.AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
-        }
+        return boundY;
+    }
+    
+    public float GetBulletSpeed()
+    {
+        return bulletSpeed;
     }
 }
