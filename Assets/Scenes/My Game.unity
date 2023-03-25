@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2224d378bafba5a4e96fea4b61d0ead5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyFactory: {fileID: 1233048074}
   waveNumber: 1
   canonBoundaryX: 12
   canonMaxBoundaryY: 4

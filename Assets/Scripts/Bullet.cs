@@ -1,3 +1,7 @@
+/*
+    IMPLEMENTS OBJECT TYPE PATTERN
+*/
+
 public class Bullet
 {
     private float boundX;

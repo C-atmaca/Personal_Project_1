@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+/*
+    USES OBJECT TYPE PATTERN TO CREATE ENEMY BULLETS AT RUNTIME
+*/
 
 public class Canon : Enemy
 {

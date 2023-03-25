@@ -1,21 +1,12 @@
 using UnityEngine;
 
+/*
+    IMPLEMENTS OBJECT TYPE PATTERN
+    IMPLEMENTS AND USES PROTOTYPE PATTERN TO CLONE ENEMIES
+*/
+
 public class EnemyFactory : MonoBehaviour
 {
-    public static EnemyFactory Instance;
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-    
     [SerializeField] private GameObject canonEnemyPrefab;
     [SerializeField] private GameObject chaserEnemyPrefab;
 
